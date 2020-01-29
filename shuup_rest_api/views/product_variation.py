@@ -34,7 +34,7 @@ class ProductLinkVariationVariableSerializer(serializers.Serializer):
 
     def validate(self, data):
         if self.context["request"].method in ("PUT", "POST") and not data.get("product"):
-            raise serializers.ValidationError("`product` is required for this method.")
+            raise serializers.ValidationError("Error! `product` is required for this method.")
         return data
 
 

@@ -27,7 +27,7 @@ class SetPasswordSerializer(serializers.Serializer):
         user_model = get_user_model()
 
         if password1 != password2:
-            raise serializers.ValidationError("Passwords do not match")
+            raise serializers.ValidationError("Error! Passwords do not match.")
 
         try:
             uid = urlsafe_base64_decode(uidb64)
@@ -36,7 +36,7 @@ class SetPasswordSerializer(serializers.Serializer):
             user = None
 
         if not user or not default_token_generator.check_token(user, token):
-            raise serializers.ValidationError("The recovery link is invalid.")
+            raise serializers.ValidationError("Error! The recovery link is invalid.")
         data["user"] = user
         return data
 
@@ -56,11 +56,11 @@ class SetAuthenticatedUserPasswordSerializer(serializers.Serializer):
         password1 = data.get("new_password1")
         password2 = data.get("new_password2")
         if password1 != password2:
-            raise serializers.ValidationError("Passwords do not match")
+            raise serializers.ValidationError("Error! Passwords do not match.")
         password = data.get("password")
         user = self.context["request"].user
         if not user or not user.check_password(password):
-            raise serializers.ValidationError("Invalid password")
+            raise serializers.ValidationError("Error! Invalid password.")
         return data
 
     def save(self):

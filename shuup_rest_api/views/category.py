@@ -46,7 +46,7 @@ class CategorySerializer(TranslatableModelSerializer):
             data["image"] = filer_image_from_upload(
                 self.context["request"], path=data["image_path"], upload_data=data["image"])
         elif data.get("image"):
-            raise serializers.ValidationError("Path is required when sending a Category image.")
+            raise serializers.ValidationError("Error! Path is required when sending a Category image.")
         return data
 
     def get_image(self, category):

@@ -123,7 +123,7 @@ class OrderTaxesMixin(object):
     @detail_route(methods=['get'])
     def taxes(self, request, pk=None):
         """
-        Get taxes for order
+        Get taxes for order.
         """
         from shuup_rest_api.views.tax import OrderLineTaxSerializer, TaxSummarySerializer
         order = self.get_object()
@@ -269,7 +269,7 @@ class OrderViewSet(PermissionHelperMixin,
         """ Set the order as Fully Paid. """
         order = self.get_object()
         if order.is_paid():
-            return Response({"error": _("Order is already fully paid")})
+            return Response({"error": _("Order is already fully paid.")})
 
         request.data["currency"] = order.currency
         request.data["amount_value"] = (order.taxful_total_price_value - order.get_total_paid_amount().value)
@@ -286,4 +286,4 @@ def _handle_payment_creation(request, order):
         data["payment_identifier"],
         data.get("description", "")
     )
-    return Response({"success": _("Payment created")}, status=status.HTTP_201_CREATED)
+    return Response({"success": _("Payment was created.")}, status=status.HTTP_201_CREATED)

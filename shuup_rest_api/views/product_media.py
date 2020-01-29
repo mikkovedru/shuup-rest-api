@@ -44,12 +44,12 @@ class ProductMediaUploadSerializer(ProductMediaSerializer):
 
     def validate(self, data):
         if not (data.get("file") or data.get("external_url")):
-            raise serializers.ValidationError("You may set either `file` or `external_url`.")
+            raise serializers.ValidationError("Error! You may set either `file` or `external_url`.")
         elif data.get("file"):
             if not data.get("path"):
-                raise serializers.ValidationError("`path` is required when `file` is set.")
+                raise serializers.ValidationError("Error! `path` is required when `file` is set.")
             elif not data["file"].content_type.startswith("image/") and data["kind"] != ProductMediaKind.IMAGE:
-                raise serializers.ValidationError("Kind must be IMAGE for this content type.")
+                raise serializers.ValidationError("Error! `Kind` must be `ProductMediaKind.IMAGE` for this content type.")
 
             # changes the filer function according to the media type
             filer_func = filer_image_from_upload if data["kind"] == ProductMediaKind.IMAGE else filer_file_from_upload
@@ -88,7 +88,7 @@ class ProductMediaViewSet(PermissionHelperMixin,
     serializer_class = ProductMediaSerializer
 
     def get_serializer_class(self):
-        """ The serializer for upload must be the ProductMediaUploadSerializer """
+        """ The serializer for upload must be the ProductMediaUploadSerializer. """
         if self.request.method == "PUT":
             return ProductMediaUploadSerializer
         return super(ProductMediaViewSet, self).get_serializer_class()

@@ -804,9 +804,13 @@ def get_user(username, email, password="test"):
 @pytest.mark.django_db
 def test_permissions(admin_user):
     """
-     ainoastaan kaupan staff / customer / objektin omistava user
-     * voi vaihtaa tilauksen tilan, toisen kaupan staff ei voi vaihtaa tilauksen tilaa
-     * retrievaa baskettia kuin sinä itse,
+    Only:
+    1. shop's staff
+    2. customer
+    3. user, who owns the object
+    , can:
+    1. change the status of the order (only the current shop's staff)
+    2. retrieve the basket
     """
 
     set_configuration()
@@ -1162,7 +1166,7 @@ def test_create_with_customer(admin_user, user_mode):
         customer.members.add(get_person_contact(user))
 
     else:
-        raise Exception("It should never enter here!")
+        raise Exception("Error! `user_mode` is of unknown type.")
 
     client = get_client(user)
 
@@ -1201,7 +1205,7 @@ def test_set_customer(admin_user, user_mode):
         user = factories.create_random_user()
 
     else:
-        raise Exception("It should never enter here!")
+        raise Exception("Error! `user_mode` is of unknown type.")
 
     client = get_client(user)
 
@@ -1288,7 +1292,7 @@ def test_set_company_customer(admin_user):
 def test_set_customer_group_prices(admin_user):
     """
     Set the customer to the basket and prices should change
-    accordingly to the customer group
+    accordingly to the customer group.
     """
     set_configuration()
 
@@ -1360,7 +1364,7 @@ def test_set_customer_group_prices(admin_user):
 def test_set_customer_campaigns(admin_user):
     """
     Set the customer to the basket and prices should change
-    accordingly to the rules
+    accordingly to the rules.
     """
     set_configuration()
 
@@ -1447,7 +1451,7 @@ def test_set_customer_campaigns(admin_user):
 @pytest.mark.django_db
 def test_anonymous(admin_user, with_admin):
     """
-    Create order with anonymous user
+    Create order with an anonymous user.
     """
     set_configuration()
 

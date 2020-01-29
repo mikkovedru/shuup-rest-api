@@ -101,7 +101,7 @@ class ProductPackageChildSerializer(serializers.Serializer):
 
 
 class ShopProductSubsetSerializer(ShopProductSerializer):
-    """ A subset class to hide id and product fields """
+    """ A subset class to hide id and product fields. """
     class Meta:
         model = ShopProduct
         extra_kwargs = {
@@ -353,7 +353,7 @@ class ProductViewSet(ProtectedModelViewSetMixin, PermissionHelperMixin, viewsets
         if serializer.is_valid():
             # attribute does not belong to the product type
             if not product.type.attributes.filter(id=serializer.validated_data["attribute"].pk).exists():
-                return Response({"error": "Attribute does not belong to the product type."},
+                return Response({"error": "Error! Attribute does not belong to the product type."},
                                 status=status.HTTP_400_BAD_REQUEST)
 
             serializer.save(product=product)
@@ -450,7 +450,7 @@ class ProductViewSet(ProtectedModelViewSetMixin, PermissionHelperMixin, viewsets
                     result = ProductVariationResult.objects.get(product=product,
                                                                 combination_hash=serializer.validated_data["hash"])
                 except ProductVariationResult.DoesNotExist:
-                    return Response(data={"error": "Combination not found"}, status=status.HTTP_404_NOT_FOUND)
+                    return Response(data={"error": "Error! Combination not found."}, status=status.HTTP_404_NOT_FOUND)
 
                 if serializer.validated_data.get("status"):
                     result.status = serializer.validated_data["status"]
@@ -464,7 +464,7 @@ class ProductViewSet(ProtectedModelViewSetMixin, PermissionHelperMixin, viewsets
                     result = ProductVariationResult.objects.get(product=product,
                                                                 combination_hash=serializer.validated_data["hash"])
                 except ProductVariationResult.DoesNotExist:
-                    return Response(data={"error": "Combination not found"}, status=status.HTTP_404_NOT_FOUND)
+                    return Response(data={"error": "Error! Combination not found."}, status=status.HTTP_404_NOT_FOUND)
 
                 result.delete()
                 product.verify_mode()

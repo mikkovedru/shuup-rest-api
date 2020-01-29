@@ -100,7 +100,7 @@ class SupplierViewSet(SearchableMixin, PermissionHelperMixin, ProtectedModelView
                 created_by=request.user
             )
         except NotImplementedError:
-            raise serializers.ValidationError("This supplier does not support stock adjustments")
+            raise serializers.ValidationError("Error! This supplier does not support stock adjustments.")
         status = supplier.get_stock_status(serializer.validated_data["product"].id)
         return Response(ProductStockStatusSerializer(status).data)
 
@@ -118,7 +118,7 @@ class SupplierViewSet(SearchableMixin, PermissionHelperMixin, ProtectedModelView
         try:
             supplier.update_stocks(product_ids)
         except NotImplementedError:
-            raise serializers.ValidationError("This supplier does not support stock updates")
+            raise serializers.ValidationError("Error! This supplier does not support stock updates.")
         return Response()
 
     @schema_serializer_class(SupplierProductsSerialzier)

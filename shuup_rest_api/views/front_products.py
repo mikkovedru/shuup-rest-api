@@ -35,8 +35,8 @@ def make_comma_separated_list_fiter(filter_name, field_expression):
     """
     Create a filter which uses a comma-separated list of values to filter the queryset.
 
-    :param str filter_name: the name of the query param to fetch values
-    :param str field_expression: the field expression to filter the queryset, like `categories__in`
+    :param str filter_name: the name of the query param to fetch values.
+    :param str field_expression: the field expression to filter the queryset, like `categories__in`.
     """
     def filter_queryset(instance, request, queryset, view):
         values = request.query_params.get(filter_name)
@@ -394,7 +394,7 @@ class FrontShopProductFilter(filters.BaseFilterBackend):
     """
     Filter shop products by visible or listed products and not deleted ones.
     You can also filter by:
-        - shop - the ID of the shop
+        - shop - the ID of the shop.
     """
     def filter_queryset(self, request, queryset, view):
         shop = request.query_params.get("shop")
@@ -543,8 +543,8 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class ClosestShopFilter(filters.BaseFilterBackend):
     """
-    Add a field using subquery to get the closest shop distance
-    Based of `shuup_rest_api.views.shop.NearbyShopsFilter`
+    Add a field using subquery to get the closest shop distance.
+    Based on `shuup_rest_api.views.shop.NearbyShopsFilter`.
     """
     def filter_queryset(self, request, queryset, view):
         latitude = float(request.query_params.get("lat", 0))

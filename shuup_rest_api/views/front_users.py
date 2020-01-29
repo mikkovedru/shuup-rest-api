@@ -40,7 +40,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     def validate(self, data):
         user_model = get_user_model()
         if not data.get(user_model.USERNAME_FIELD) and not data.get("email"):
-            raise serializers.ValidationError("username and/or email is required")
+            raise serializers.ValidationError("Error! Username and/or email is required.")
         if user_model.USERNAME_FIELD not in data and user_model.USERNAME_FIELD != "email":
             email = data.get("email")
             if email:
@@ -48,7 +48,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
         pwd = data.pop("password")
         if user_model.objects.filter(**data).exists():
-            raise serializers.ValidationError("User already exists.")
+            raise serializers.ValidationError("Error! User already exists.")
         data["password"] = pwd
         return data
 
@@ -97,7 +97,7 @@ class ContactSerializer(serializers.ModelSerializer):
 
 class FrontUserViewSet(PermissionHelperMixin, CreateModelMixin, UpdateModelMixin, RetrieveModelMixin, GenericViewSet):
     """
-    register: Register user
+    register: Register a user.
 
     retrieve: Fetches the current contact.
 
@@ -132,6 +132,7 @@ class FrontUserViewSet(PermissionHelperMixin, CreateModelMixin, UpdateModelMixin
     def create(self, request, *args, **kwargs):
         """
         Register a User.
+
         If the user information already exists, an error will be returned.
         """
         serializer = UserRegisterSerializer(data=request.data)

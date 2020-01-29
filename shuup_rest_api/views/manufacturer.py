@@ -40,7 +40,7 @@ class ManufacturerSerializer(serializers.ModelSerializer):
             data["logo"] = filer_image_from_upload(
                 self.context["request"], path=data["logo_path"], upload_data=data["logo"])
         elif data.get("logo"):
-            raise serializers.ValidationError("Path is required when sending a manufacturer logo.")
+            raise serializers.ValidationError("Error! Path is required when sending a manufacturer logo.")
         return data
 
     def get_logo(self, manufacturer):
